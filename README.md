@@ -25,7 +25,7 @@ const id = tnid();
 default value: 5
 
 - The length of the identifier to be returned is `4 * scale`.
-- The number of cases is `2^{12 * scale}`.
+- The number of cases is `2^{20 * scale}`.
 
 ### alphabet
 
