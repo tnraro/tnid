@@ -1,31 +1,34 @@
+let crypto = null;
 const platform = (() => {
     if (typeof window !== "undefined") {
         if (typeof window.crypto !== "undefined") {
+            crypto = window.crypto;
             return 0;
         } else if (typeof window.msCrypto !== "undefined") {
-            return 1;
+            crypto = window.msCrypto;
+            return 0;
         }
     }
     if (typeof require === "function") {
-        return 2;
+        if (typeof require("crypto").webcrypto !== "undefined") {
+            crypto = require("crypto").webcrypto;
+            return 0;
+        }
+        else
+            return 1;
     }
-    return 3;
+    return 2;
 })();
 
 const rng = (scale = 5) => {
     const length = 3 * scale;
     switch (platform) {
         case 0: {
-            return window.crypto.getRandomValues(
+            return crypto.getRandomValues(
                 new Uint8Array(length)
             );
         }
         case 1: {
-            return window.msCrypto.getRandomValues(
-                new Uint8Array(length)
-            );
-        }
-        case 2: {
             const crypto = require("crypto");
             return crypto.randomBytes(length).buffer;
         }
