@@ -30,7 +30,7 @@ const rng = (scale = 5) => {
         }
         case 1: {
             const crypto = require("crypto");
-            return crypto.randomBytes(length).buffer;
+            return crypto.randomBytes(length);
         }
         default: {
             return new Uint8Array(length).map(v => Math.random() * 0xff);
